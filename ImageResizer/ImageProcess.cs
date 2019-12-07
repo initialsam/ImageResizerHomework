@@ -41,7 +41,6 @@ namespace ImageResizer
         public void ResizeImages(string sourcePath, string destPath, double scale)
         {
             var allFiles = FindImages(sourcePath);
-            List<Task> taskList = new List<Task>();
             foreach (var filePath in allFiles)
             {
                 ProcessedImageAndSave(destPath, scale, filePath);
@@ -75,8 +74,9 @@ namespace ImageResizer
 
             int destionatonWidth = (int)(sourceWidth * scale);
             int destionatonHeight = (int)(sourceHeight * scale);
-          
+
             //processBitmap 花費時間 : 90 ~ 1690 ms 遞增
+            //再把processBitmap 做非同步 不會比較快 code 比較複雜
             Bitmap processedImage = processBitmap((Bitmap)imgPhoto,
                   sourceWidth, sourceHeight,
                   destionatonWidth, destionatonHeight);
