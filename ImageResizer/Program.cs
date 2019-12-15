@@ -12,6 +12,9 @@ namespace ImageResizer
         //main 變成非同步 會變8ms 但是沒有圖片
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, msg) => HandleUnhandledException(msg.ExceptionObject as Exception);
+
             string sourcePath = Path.Combine(Environment.CurrentDirectory, "images");
             string destPath = Path.Combine(Environment.CurrentDirectory, "output"); ;
 
@@ -44,6 +47,11 @@ namespace ImageResizer
             action.Invoke();
             sw.Stop();
             return sw.ElapsedMilliseconds;
+        }
+
+        private static void HandleUnhandledException(Exception exception)
+        {
+            Console.WriteLine($"{exception}");
         }
     }
 }
